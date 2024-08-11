@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="DependencyInjection\Options\**" />
+    <Compile Remove="UserCases\**" />
+    <Compile Remove="Validators\**" />
+    <EmbeddedResource Remove="DependencyInjection\Options\**" />
+    <EmbeddedResource Remove="UserCases\**" />
+    <EmbeddedResource Remove="Validators\**" />
+    <None Remove="DependencyInjection\Options\**" />
+    <None Remove="UserCases\**" />
+    <None Remove="Validators\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="14.0.0" />
+    <PackageReference Include="FluentValidation" Version="12.0.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StructureCodeSolution.Contract\StructureCodeSolution.Contract.csproj" />
+    <ProjectReference Include="..\StructureCodeSolution.Domain\StructureCodeSolution.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

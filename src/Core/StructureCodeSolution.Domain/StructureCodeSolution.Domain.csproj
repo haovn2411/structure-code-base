@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Abstractions\Dapper\Repositories\NewFolder\**" />
+    <Compile Remove="Aggregates\Devices\NewFolder\**" />
+    <Compile Remove="Enums\**" />
+    <EmbeddedResource Remove="Abstractions\Dapper\Repositories\NewFolder\**" />
+    <EmbeddedResource Remove="Aggregates\Devices\NewFolder\**" />
+    <EmbeddedResource Remove="Enums\**" />
+    <None Remove="Abstractions\Dapper\Repositories\NewFolder\**" />
+    <None Remove="Aggregates\Devices\NewFolder\**" />
+    <None Remove="Enums\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.8" />
+  </ItemGroup>
+
+</Project>
