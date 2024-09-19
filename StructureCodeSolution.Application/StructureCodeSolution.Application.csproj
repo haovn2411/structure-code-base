@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Abstractions\" />
     <Folder Include="Behaviors\" />
     <Folder Include="DependencyInjection\Extentions\" />
     <Folder Include="DependencyInjection\Options\" />
@@ -15,6 +14,10 @@
     <Folder Include="UserCases\V1\Commands\" />
     <Folder Include="UserCases\V1\Queries\" />
     <Folder Include="Validators\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="12.4.0" />
   </ItemGroup>
 
 </Project>

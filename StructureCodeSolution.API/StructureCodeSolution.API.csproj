@@ -7,7 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StructureCodeSolution.Application\StructureCodeSolution.Application.csproj" />
+    <ProjectReference Include="..\StructureCodeSolution.Contract\StructureCodeSolution.Contract.csproj" />
+    <ProjectReference Include="..\StructureCodeSolution.Domain\StructureCodeSolution.Domain.csproj" />
+    <ProjectReference Include="..\StructureCodeSolution.Infrastructure\StructureCodeSolution.Infrastructure.csproj" />
+    <ProjectReference Include="..\StructureCodeSolution.Persistence\StructureCodeSolution.Persistence.csproj" />
   </ItemGroup>
 
 </Project>

@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StructureCodeSolution.Domain.Abstractions.Repositories
+namespace StructureCodeSolution.Domain.Abstractions.Repositories.RepositoryBase
 {
     public interface IRepositoryBase<TEntity, in TKey> where TEntity : class
     {
