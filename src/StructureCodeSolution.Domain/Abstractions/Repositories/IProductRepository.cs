@@ -1,5 +1,5 @@
 ﻿using StructureCodeSolution.Domain.Abstractions.Repositories.RepositoryBase;
-using StructureCodeSolution.Domain.Entities.Product;
+using StructureCodeSolution.Domain.Aggregates.Product;
 using System;
 using System.Collections.Generic;
 using System.Linq;

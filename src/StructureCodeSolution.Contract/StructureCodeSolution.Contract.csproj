@@ -7,10 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Abstractions\" />
-    <Folder Include="Enumerations\" />
-    <Folder Include="Extentions\" />
-    <Folder Include="Services\" />
+    <Compile Remove="Enumerations\**" />
+    <Compile Remove="Extentions\**" />
+    <EmbeddedResource Remove="Enumerations\**" />
+    <EmbeddedResource Remove="Extentions\**" />
+    <None Remove="Enumerations\**" />
+    <None Remove="Extentions\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="12.5.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.17" />
   </ItemGroup>
 
 </Project>

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StructureCodeSolution.Domain.Entities.Identity
+namespace StructureCodeSolution.Domain.Aggregates.Identity
 {
     public class AppRole : IdentityRole<Guid>, IAuditable
     {

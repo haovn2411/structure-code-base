@@ -1,12 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using StructureCodeSolution.Domain.Entities.Identity;
-using StructureCodeSolution.Domain.Entities.Product;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using StructureCodeSolution.Domain.Aggregates.Identity;
+using StructureCodeSolution.Domain.Aggregates.Product;
 
 namespace StructureCodeSolution.Persistence
 {

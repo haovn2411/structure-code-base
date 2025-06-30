@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StructureCodeSolution.Domain.Entities.Product
+namespace StructureCodeSolution.Domain.Aggregates.Product
 {
     public class Product : EntityAuditBase<Guid>
     {

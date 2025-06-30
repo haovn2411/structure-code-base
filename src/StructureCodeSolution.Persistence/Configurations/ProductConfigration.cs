@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using StructureCodeSolution.Domain.Entities.Product;
+using StructureCodeSolution.Domain.Aggregates.Product;
 using StructureCodeSolution.Persistence.Constants;
 using System;
 using System.Collections.Generic;
