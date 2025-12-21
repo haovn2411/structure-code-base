@@ -28,7 +28,9 @@ namespace StructureCodeSolution.Application.Behaviors
             .ToList();
 
             if (errorsDictionary.Any())
+            {
                 throw new ValidationException(errorsDictionary);
+            }
 
             return await next();
         }

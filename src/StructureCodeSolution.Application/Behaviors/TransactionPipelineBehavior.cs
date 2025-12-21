@@ -21,8 +21,11 @@ namespace StructureCodeSolution.Application.Behaviors
         public async Task<TResponse> Handle(TRequest request,
             RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
-            if (!IsCommand()) // In case TRequest is QueryRequest just ignore
+            if (!IsCommand())
+            {
+                // In case TRequest is QueryRequest just ignore
                 return await next();
+            } 
 
             #region ============== SQL-SERVER-STRATEGY-1 ==============
 

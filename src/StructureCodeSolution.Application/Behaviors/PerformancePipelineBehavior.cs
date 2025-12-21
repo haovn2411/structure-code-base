@@ -26,7 +26,9 @@ namespace StructureCodeSolution.Application.Behaviors
             var elapsedMilliseconds = _timer.ElapsedMilliseconds;
 
             if (elapsedMilliseconds <= 5000)
+            {
                 return response;
+            }
 
             var requestName = typeof(TRequest).Name;
             _logger.LogWarning("Long Time Running - Request Details: {Name} ({ElapsedMilliseconds} milliseconds) {@Request}",
