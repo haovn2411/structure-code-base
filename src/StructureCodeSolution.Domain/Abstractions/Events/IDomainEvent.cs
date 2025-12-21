@@ -1,4 +1,6 @@
-﻿namespace StructureCodeSolution.Domain.Abstractions.Events
+﻿using MediatR;
+
+namespace StructureCodeSolution.Domain.Abstractions.Events
 {
     public interface IDomainEvent : INotification
     {
