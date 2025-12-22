@@ -8,11 +8,6 @@ using StructureCodeSolution.Domain.Abstractions;
 using StructureCodeSolution.Domain.Abstractions.Repositories.RepositoryBase;
 using StructureCodeSolution.Domain.Aggregates.Identity;
 using StructureCodeSolution.Persistence.DependencyInjection.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureCodeSolution.Persistence.DependencyInjection.Extentions
 {

@@ -10,10 +10,10 @@ namespace StructureCodeSolution.Persistence
         public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options)
             : base(options)
         {
-            
+
         }
 
-        protected override void OnModelCreating(ModelBuilder builder) 
+        protected override void OnModelCreating(ModelBuilder builder)
             => builder.ApplyConfigurationsFromAssembly(AssemblyReference.Assembly);
 
         public DbSet<AppUser> AppUsers { get; set; }

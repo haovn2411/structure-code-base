@@ -2,11 +2,6 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using StructureCodeSolution.Domain.Aggregates.Identity;
 using StructureCodeSolution.Persistence.Constants;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureCodeSolution.Persistence.Configurations
 {

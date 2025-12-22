@@ -4,7 +4,7 @@ namespace StructureCodeSolution.Domain.Abstractions
 {
     public interface IUnitOfWork : IAsyncDisposable
     {
-        Task SaveChangeAsync(CancellationToken cancellationToken =  default);
+        Task SaveChangeAsync(CancellationToken cancellationToken = default);
         DbContext GetDbContext();
     }
 }

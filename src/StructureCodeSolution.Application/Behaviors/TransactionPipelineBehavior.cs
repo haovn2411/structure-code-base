@@ -25,7 +25,7 @@ namespace StructureCodeSolution.Application.Behaviors
             {
                 // In case TRequest is QueryRequest just ignore
                 return await next();
-            } 
+            }
 
             #region ============== SQL-SERVER-STRATEGY-1 ==============
 

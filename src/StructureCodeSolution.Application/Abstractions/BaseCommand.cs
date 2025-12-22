@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MediatR;
-
-namespace StructureCodeSolution.Application.Abstractions
+﻿namespace StructureCodeSolution.Application.Abstractions
 {
     //public class BaseCommand : I
     //{
