@@ -5,9 +5,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using StructureCodeSolution.Domain.Abstractions;
+using StructureCodeSolution.Domain.Abstractions.Events;
+using StructureCodeSolution.Domain.Abstractions.Repositories;
 using StructureCodeSolution.Domain.Abstractions.Repositories.RepositoryBase;
 using StructureCodeSolution.Domain.Aggregates.Identity;
 using StructureCodeSolution.Persistence.DependencyInjection.Options;
+using StructureCodeSolution.Persistence.Events;
+using StructureCodeSolution.Persistence.Repositories;
 
 namespace StructureCodeSolution.Persistence.DependencyInjection.Extentions
 {
@@ -68,6 +72,7 @@ namespace StructureCodeSolution.Persistence.DependencyInjection.Extentions
         {
             services.AddTransient(typeof(IUnitOfWork), typeof(UnitOfWork));
             services.AddTransient(typeof(IRepositoryBase<,>), typeof(RepositoryBase<,>));
+            services.AddTransient<IDeviceRepository, DeviceRepository>();
         }
 
         public static void AddInterceptorPersistence(this IServiceCollection services)
@@ -82,5 +87,7 @@ namespace StructureCodeSolution.Persistence.DependencyInjection.Extentions
                 .ValidateDataAnnotations()
                 .ValidateOnStart();
 
+        public static IServiceCollection AddDomainEventCollector(this IServiceCollection services)
+            => services.AddScoped<IDomainEventCollector, DomainEventCollector>();
     }
 }

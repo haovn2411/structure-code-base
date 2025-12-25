@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using StructureCodeSolution.Persistence.Constants;
 
-namespace StructureCodeSolution.Persistence.Configurations
+namespace StructureCodeSolution.Persistence.Configurations.Identity
 {
     internal sealed class AppUserRoleConfiguration : IEntityTypeConfiguration<IdentityUserRole<Guid>>
     {

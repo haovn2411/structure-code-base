@@ -18,6 +18,7 @@
     <ProjectReference Include="..\StructureCodeSolution.Application\StructureCodeSolution.Application.csproj" />
     <ProjectReference Include="..\StructureCodeSolution.Contract\StructureCodeSolution.Contract.csproj" />
     <ProjectReference Include="..\StructureCodeSolution.Domain\StructureCodeSolution.Domain.csproj" />
+    <ProjectReference Include="..\StructureCodeSolution.Infrastructure.MessageBus\StructureCodeSolution.Infrastructure.MessageBus.csproj" />
     <ProjectReference Include="..\StructureCodeSolution.Infrastructure\StructureCodeSolution.Infrastructure.csproj" />
     <ProjectReference Include="..\StructureCodeSolution.Persistence\StructureCodeSolution.Persistence.csproj" />
   </ItemGroup>

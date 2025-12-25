@@ -1,3 +1,4 @@
+﻿using StructureCodeSolution.Application.DependencyInjection.Extentions;
 using StructureCodeSolution.Persistence.DependencyInjection.Extentions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,7 +15,13 @@ builder.Services.AddSwaggerGen();
 // #Persistence layer
 builder.Services.AddSQLServerPersistence();
 builder.Services.AddRepositoryPersistence();
+builder.Services.AddDomainEventCollector();
 
+
+// #Application layer
+builder.Services.AddConfigureMediatR();
+builder.Services.AddConfigureAutoMapper();
+builder.Services.AddDomainEventNotification();
 
 var app = builder.Build();
 

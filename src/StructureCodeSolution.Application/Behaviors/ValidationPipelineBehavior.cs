@@ -20,7 +20,7 @@ namespace StructureCodeSolution.Application.Behaviors
         {
             if (!_validators.Any())
             {
-                return await next();
+                return await next(cancellationToken);
             }
 
             Error[] errors = _validators

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using StructureCodeSolution.Domain.Aggregates.Devices;
 using StructureCodeSolution.Domain.Aggregates.Identity;
 using StructureCodeSolution.Domain.Aggregates.Product;
 
@@ -19,6 +20,6 @@ namespace StructureCodeSolution.Persistence
         public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<AppRole> AppRoles { get; set; }
         public DbSet<Product> Products { get; set; }
-
+        public DbSet<Device> Devices { get; set; }
     }
 }

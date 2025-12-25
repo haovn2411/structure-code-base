@@ -1,6 +1,12 @@
-﻿namespace StructureCodeSolution.Contract.Abstractions.Message
+﻿using MediatR;
+using StructureCodeSolution.Contract.Abstractions.Shared;
+
+namespace StructureCodeSolution.Contract.Abstractions.Message
 {
-    public class ICommandHandler
-    {
-    }
+    public interface ICommandHandler<TCommand> : IRequestHandler<TCommand, Result>
+        where TCommand : ICommand
+    { }
+    public interface ICommandHandler<TCommand, TResponse> : IRequestHandler<TCommand, Result<TResponse>>
+    where TCommand : ICommand<TResponse>
+    { }
 }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using StructureCodeSolution.Domain.Aggregates.Identity;
 using StructureCodeSolution.Persistence.Constants;
 
-namespace StructureCodeSolution.Persistence.Configurations
+namespace StructureCodeSolution.Persistence.Configurations.Identity
 {
     internal class AppRoleConfiguration : IEntityTypeConfiguration<AppRole>
     {

@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace StructureCodeSolution.Domain.Abstractions
+﻿namespace StructureCodeSolution.Domain.Abstractions
 {
     public interface IUnitOfWork : IAsyncDisposable
     {
-        Task SaveChangeAsync(CancellationToken cancellationToken = default);
-        DbContext GetDbContext();
+        Task SaveChangesAsync(CancellationToken cancellationToken = default);
+        Task BeginTransactionAsync(CancellationToken cancellationToken = default);
+        Task CommitTransactionAsync(CancellationToken cancellationToken = default);
+        Task RollbackTransactionAsync(CancellationToken cancellationToken = default);
     }
 }

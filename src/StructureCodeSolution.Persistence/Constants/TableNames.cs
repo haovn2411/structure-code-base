@@ -18,5 +18,7 @@
         internal const string AppUserTokens = nameof(AppUserTokens); // IdentityUserToken
 
         internal const string Product = nameof(Product);
+        internal const string Device = nameof(Device);
+
     }
 }
