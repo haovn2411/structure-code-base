@@ -14,7 +14,6 @@ namespace StructureCodeSolution.Persistence.Events
 
         public IReadOnlyCollection<IDomainEvent> GetCapturedEvents()
         {
-            // Lục soát ChangeTracker để tìm các AggregateRoot có chứa Event
             return _context.ChangeTracker.Entries<IAggregateRoot>()
                 .Select(x => x.Entity)
                 .SelectMany(aggregate =>
@@ -24,7 +23,6 @@ namespace StructureCodeSolution.Persistence.Events
                 })
                 .ToList();
         }
-
         public void ClearEvents()
         {
             var aggregates = _context.ChangeTracker.Entries<IAggregateRoot>()

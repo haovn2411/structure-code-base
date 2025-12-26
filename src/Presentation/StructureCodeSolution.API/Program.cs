@@ -21,7 +21,7 @@ builder.Services.AddDomainEventCollector();
 // #Application layer
 builder.Services.AddConfigureMediatR();
 builder.Services.AddConfigureAutoMapper();
-builder.Services.AddDomainEventNotification();
+builder.Services.AddDomainEventNotificationHandlers();
 
 var app = builder.Build();
 
