@@ -4,13 +4,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using StructureCodeSolution.Application.Abstractions.Events.Interfaces;
+using StructureCodeSolution.Application.Abstractions.Identity;
 using StructureCodeSolution.Domain.Abstractions;
-using StructureCodeSolution.Domain.Abstractions.Events;
 using StructureCodeSolution.Domain.Abstractions.Repositories;
 using StructureCodeSolution.Domain.Abstractions.Repositories.RepositoryBase;
 using StructureCodeSolution.Domain.Aggregates.Identity;
 using StructureCodeSolution.Persistence.DependencyInjection.Options;
 using StructureCodeSolution.Persistence.Events;
+using StructureCodeSolution.Persistence.Interceptors;
 using StructureCodeSolution.Persistence.Repositories;
 
 namespace StructureCodeSolution.Persistence.DependencyInjection.Extentions
@@ -27,6 +29,7 @@ namespace StructureCodeSolution.Persistence.DependencyInjection.Extentions
                 //var auditableInterceptor = provider.GetService<UpdateAuditableEntitiesInterceptor>();
                 var configuration = provider.GetRequiredService<IConfiguration>();
                 var options = provider.GetRequiredService<IOptionsMonitor<SqlServerRetryOptions>>();
+                var AuditableEntityInterceptor = provider.GetRequiredService<AuditableEntityInterceptor>();
 
                 builder
                     .EnableDetailedErrors(true)
@@ -41,7 +44,8 @@ namespace StructureCodeSolution.Persistence.DependencyInjection.Extentions
                                     maxRetryCount: options.CurrentValue.MaxRetryCount,
                                     maxRetryDelay: options.CurrentValue.MaxRetryDelay,
                                     errorNumbersToAdd: options.CurrentValue.ErrorNumbersToAdd))
-                            .MigrationsAssembly(typeof(ApplicationDBContext).Assembly.GetName().Name));
+                            .MigrationsAssembly(typeof(ApplicationDBContext).Assembly.GetName().Name))
+                    .AddInterceptors(AuditableEntityInterceptor);
             });
 
             services.AddIdentityCore<AppUser>(opt =>
@@ -78,6 +82,7 @@ namespace StructureCodeSolution.Persistence.DependencyInjection.Extentions
         public static void AddInterceptorPersistence(this IServiceCollection services)
         {
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<AuditableEntityInterceptor>();
         }
 
         public static OptionsBuilder<SqlServerRetryOptions> ConfigureSqlServerRetryOptions(this IServiceCollection services, IConfigurationSection section)
@@ -89,5 +94,11 @@ namespace StructureCodeSolution.Persistence.DependencyInjection.Extentions
 
         public static IServiceCollection AddDomainEventCollector(this IServiceCollection services)
             => services.AddScoped<IDomainEventCollector, DomainEventCollector>();
+
+        public static IServiceCollection AddUserService(this IServiceCollection services)
+        {
+            services.AddScoped<ICurrentUserService, Services.CurrentUserService>();
+            return services;
+        }
     }
 }

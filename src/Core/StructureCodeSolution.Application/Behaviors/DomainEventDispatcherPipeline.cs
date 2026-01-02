@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
 using StructureCodeSolution.Application.Abstractions.Events.AdapterMediatR;
+using StructureCodeSolution.Application.Abstractions.Events.Interfaces;
 using StructureCodeSolution.Domain.Abstractions.Events;
 
 namespace StructureCodeSolution.Application.Behaviors
@@ -60,7 +61,6 @@ namespace StructureCodeSolution.Application.Behaviors
                         "Dispatching domain event: {EventType}",
                         domainEvent.GetType().Name);
 
-                    // ✅ Convert IDomainEvent -> INotification và dispatch
                     await PublishDomainEventAsync(domainEvent, cancellationToken);
                 }
                 catch (Exception ex)

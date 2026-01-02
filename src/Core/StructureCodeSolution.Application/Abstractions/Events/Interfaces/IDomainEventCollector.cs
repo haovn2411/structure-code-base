@@ -1,4 +1,6 @@
-﻿namespace StructureCodeSolution.Domain.Abstractions.Events
+﻿using StructureCodeSolution.Domain.Abstractions.Events;
+
+namespace StructureCodeSolution.Application.Abstractions.Events.Interfaces
 {
     public interface IDomainEventCollector
     {

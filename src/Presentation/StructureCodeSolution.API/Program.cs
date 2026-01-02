@@ -16,7 +16,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSQLServerPersistence();
 builder.Services.AddRepositoryPersistence();
 builder.Services.AddDomainEventCollector();
-
+builder.Services.AddInterceptorPersistence();
+builder.Services.AddUserService();
 
 // #Application layer
 builder.Services.AddConfigureMediatR();

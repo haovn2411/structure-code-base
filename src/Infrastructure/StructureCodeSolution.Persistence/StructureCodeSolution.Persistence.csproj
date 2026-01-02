@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\StructureCodeSolution.Application\StructureCodeSolution.Application.csproj" />
     <ProjectReference Include="..\..\Core\StructureCodeSolution.Domain\StructureCodeSolution.Domain.csproj" />
   </ItemGroup>
 

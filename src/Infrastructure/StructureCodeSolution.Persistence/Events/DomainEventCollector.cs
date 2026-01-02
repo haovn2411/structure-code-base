@@ -1,4 +1,5 @@
-﻿using StructureCodeSolution.Domain.Abstractions.Aggregates;
+﻿using StructureCodeSolution.Application.Abstractions.Events.Interfaces;
+using StructureCodeSolution.Domain.Abstractions.Aggregates;
 using StructureCodeSolution.Domain.Abstractions.Events;
 
 namespace StructureCodeSolution.Persistence.Events
