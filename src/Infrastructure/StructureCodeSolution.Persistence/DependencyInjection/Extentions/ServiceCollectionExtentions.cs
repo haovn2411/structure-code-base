@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +13,7 @@ using StructureCodeSolution.Persistence.DependencyInjection.Options;
 using StructureCodeSolution.Persistence.Events;
 using StructureCodeSolution.Persistence.Interceptors;
 using StructureCodeSolution.Persistence.Repositories;
+using StructureCodeSolution.Persistence.Services;
 
 namespace StructureCodeSolution.Persistence.DependencyInjection.Extentions
 {
@@ -29,7 +29,7 @@ namespace StructureCodeSolution.Persistence.DependencyInjection.Extentions
                 //var auditableInterceptor = provider.GetService<UpdateAuditableEntitiesInterceptor>();
                 var configuration = provider.GetRequiredService<IConfiguration>();
                 var options = provider.GetRequiredService<IOptionsMonitor<SqlServerRetryOptions>>();
-                var AuditableEntityInterceptor = provider.GetRequiredService<AuditableEntityInterceptor>();
+                var auditableEntityInterceptor = provider.GetRequiredService<AuditableEntityInterceptor>();
 
                 builder
                     .EnableDetailedErrors(true)
@@ -45,7 +45,7 @@ namespace StructureCodeSolution.Persistence.DependencyInjection.Extentions
                                     maxRetryDelay: options.CurrentValue.MaxRetryDelay,
                                     errorNumbersToAdd: options.CurrentValue.ErrorNumbersToAdd))
                             .MigrationsAssembly(typeof(ApplicationDBContext).Assembly.GetName().Name))
-                    .AddInterceptors(AuditableEntityInterceptor);
+                    .AddInterceptors(auditableEntityInterceptor);
             });
 
             services.AddIdentityCore<AppUser>(opt =>
@@ -81,8 +81,8 @@ namespace StructureCodeSolution.Persistence.DependencyInjection.Extentions
 
         public static void AddInterceptorPersistence(this IServiceCollection services)
         {
-            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddScoped<AuditableEntityInterceptor>();
+            services.AddHttpContextAccessor();
+            services.AddSingleton<AuditableEntityInterceptor>();
         }
 
         public static OptionsBuilder<SqlServerRetryOptions> ConfigureSqlServerRetryOptions(this IServiceCollection services, IConfigurationSection section)
@@ -97,7 +97,7 @@ namespace StructureCodeSolution.Persistence.DependencyInjection.Extentions
 
         public static IServiceCollection AddUserService(this IServiceCollection services)
         {
-            services.AddScoped<ICurrentUserService, Services.CurrentUserService>();
+            services.AddScoped<ICurrentUserService, CurrentUserService>();
             return services;
         }
     }

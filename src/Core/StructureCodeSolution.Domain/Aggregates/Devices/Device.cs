@@ -2,7 +2,7 @@
 
 namespace StructureCodeSolution.Domain.Aggregates.Devices
 {
-    public class Device : AggregateRoot<Guid>
+    public class Device : AggregateAuditedRoot<Guid>
     {
         public string Name { get; private set; }
 

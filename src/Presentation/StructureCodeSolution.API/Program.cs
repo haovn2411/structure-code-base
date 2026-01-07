@@ -1,4 +1,5 @@
-﻿using StructureCodeSolution.Application.DependencyInjection.Extentions;
+﻿using StructureCodeSolution.API.Middlewares;
+using StructureCodeSolution.Application.DependencyInjection.Extentions;
 using StructureCodeSolution.Persistence.DependencyInjection.Extentions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,7 +12,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 ////// ========================================
-
 // #Persistence layer
 builder.Services.AddSQLServerPersistence();
 builder.Services.AddRepositoryPersistence();
@@ -19,10 +19,16 @@ builder.Services.AddDomainEventCollector();
 builder.Services.AddInterceptorPersistence();
 builder.Services.AddUserService();
 
+////// ========================================
 // #Application layer
 builder.Services.AddConfigureMediatR();
 builder.Services.AddConfigureAutoMapper();
 builder.Services.AddDomainEventNotificationHandlers();
+
+////// ========================================
+/// #API layer
+builder.Services.AddTransient<ExceptionHandlingMiddleware>();
+
 
 var app = builder.Build();
 
@@ -32,6 +38,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 

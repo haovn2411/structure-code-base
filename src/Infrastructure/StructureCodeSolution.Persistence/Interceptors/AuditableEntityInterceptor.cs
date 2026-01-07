@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.DependencyInjection;
 using StructureCodeSolution.Application.Abstractions.Identity;
 using StructureCodeSolution.Domain.Abstractions.Entities;
 
@@ -7,11 +8,11 @@ namespace StructureCodeSolution.Persistence.Interceptors
 {
     public class AuditableEntityInterceptor : SaveChangesInterceptor
     {
-        private readonly ICurrentUserService _currentUserService;
+        private readonly IServiceProvider _serviceProvider;
 
-        public AuditableEntityInterceptor(ICurrentUserService currentUserService)
+        public AuditableEntityInterceptor(IServiceProvider serviceProvider)
         {
-            _currentUserService = currentUserService;
+            _serviceProvider = serviceProvider;
         }
 
         public override async ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData, InterceptionResult<int> result, CancellationToken cancellationToken = default)
@@ -23,7 +24,9 @@ namespace StructureCodeSolution.Persistence.Interceptors
         {
             if (context == null) { return; }
 
-            var userId = _currentUserService.UserId;
+            var serviceScope = _serviceProvider.CreateScope();
+            var currentUserService = serviceScope.ServiceProvider.GetRequiredService<ICurrentUserService>();
+            var userId = currentUserService.UserId;
             var now = DateTimeOffset.UtcNow;
 
             foreach (var entry in context.ChangeTracker.Entries())

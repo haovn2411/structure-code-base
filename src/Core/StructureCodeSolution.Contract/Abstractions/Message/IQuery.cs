@@ -1,6 +1,8 @@
-﻿namespace StructureCodeSolution.Contract.Abstractions.Message
+﻿using MediatR;
+using StructureCodeSolution.Contract.Abstractions.Shared;
+
+namespace StructureCodeSolution.Contract.Abstractions.Message
 {
-    public class IQuery
-    {
-    }
+    public interface IQuery<TResponse> : IRequest<Result<TResponse>>
+    { }
 }
