@@ -1,4 +1,4 @@
-﻿namespace StructureCodeSolution.Contract.Abstractions.Shared
+﻿namespace StructureCodeSolution.Application.Abstractions.Shared
 {
     public class Result
     {

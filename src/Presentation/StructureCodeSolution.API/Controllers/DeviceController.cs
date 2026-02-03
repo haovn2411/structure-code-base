@@ -1,8 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using StructureCodeSolution.API.Abstractions;
-using StructureCodeSolution.Contract.Abstractions.Shared;
-using StructureCodeSolution.Contract.UseCases.V1.Device;
+using StructureCodeSolution.Application.Abstractions.Shared;
+using StructureCodeSolution.Application.Usecases.V1.Commands.Devices.Abstracts;
 
 namespace StructureCodeSolution.API.Controllers
 {

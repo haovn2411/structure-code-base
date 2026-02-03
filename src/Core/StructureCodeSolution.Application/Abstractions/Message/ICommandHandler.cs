@@ -1,7 +1,7 @@
 ﻿using MediatR;
-using StructureCodeSolution.Contract.Abstractions.Shared;
+using StructureCodeSolution.Application.Abstractions.Shared;
 
-namespace StructureCodeSolution.Contract.Abstractions.Message
+namespace StructureCodeSolution.Application.Abstractions.Message
 {
     public interface ICommandHandler<TCommand> : IRequestHandler<TCommand, Result>
         where TCommand : ICommand

@@ -1,4 +1,4 @@
-﻿namespace StructureCodeSolution.Contract.Abstractions.Shared
+﻿namespace StructureCodeSolution.Application.Abstractions.Shared
 {
     public sealed class ValidationResult : Result, IValidationResult
     {
@@ -10,5 +10,4 @@
 
         public static ValidationResult WithErrors(Error[] errors) => new(errors);
     }
-
 }

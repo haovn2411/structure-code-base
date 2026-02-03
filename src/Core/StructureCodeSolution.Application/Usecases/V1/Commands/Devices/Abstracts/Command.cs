@@ -1,4 +1,6 @@
-﻿namespace StructureCodeSolution.Contract.UseCases.V1.Device
+﻿using StructureCodeSolution.Application.Abstractions.Message;
+
+namespace StructureCodeSolution.Application.Usecases.V1.Commands.Devices.Abstracts
 {
     public static class Command
     {

@@ -1,6 +1,6 @@
-﻿using StructureCodeSolution.Contract.Abstractions.Message;
-using StructureCodeSolution.Contract.Abstractions.Shared;
-using StructureCodeSolution.Contract.UseCases.V1.Device;
+﻿using StructureCodeSolution.Application.Abstractions.Message;
+using StructureCodeSolution.Application.Abstractions.Shared;
+using StructureCodeSolution.Application.Usecases.V1.Commands.Devices.Abstracts;
 using StructureCodeSolution.Domain.Abstractions;
 using StructureCodeSolution.Domain.Abstractions.Repositories;
 using StructureCodeSolution.Domain.Aggregates.Devices;

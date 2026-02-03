@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using MediatR;
-using StructureCodeSolution.Contract.Abstractions.Shared;
+using StructureCodeSolution.Application.Abstractions.Shared;
 
 namespace StructureCodeSolution.Application.Behaviors
 {

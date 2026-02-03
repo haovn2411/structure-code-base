@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace StructureCodeSolution.Contract.Abstractions.Shared
+namespace StructureCodeSolution.Application.Abstractions.Shared
 {
     public class PagedResult<T>
     {

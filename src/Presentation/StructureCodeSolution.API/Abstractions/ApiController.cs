@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using StructureCodeSolution.Contract.Abstractions.Shared;
+using StructureCodeSolution.Application.Abstractions.Shared;
 
 namespace StructureCodeSolution.API.Abstractions
 {

@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\StructureCodeSolution.Application\StructureCodeSolution.Application.csproj" />
-    <ProjectReference Include="..\..\Core\StructureCodeSolution.Contract\StructureCodeSolution.Contract.csproj" />
     <ProjectReference Include="..\..\Infrastructure\StructureCodeSolution.Infrastructure.MessageBus\StructureCodeSolution.Infrastructure.MessageBus.csproj" />
     <ProjectReference Include="..\..\Infrastructure\StructureCodeSolution.Infrastructure\StructureCodeSolution.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Infrastructure\StructureCodeSolution.Persistence\StructureCodeSolution.Persistence.csproj" />

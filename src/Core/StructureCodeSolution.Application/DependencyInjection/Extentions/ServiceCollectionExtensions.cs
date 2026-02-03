@@ -18,7 +18,7 @@ namespace StructureCodeSolution.Application.DependencyInjection.Extentions
             .AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformancePipelineBehavior<,>))
             .AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionPipelineBehavior<,>))
             .AddTransient(typeof(IPipelineBehavior<,>), typeof(DomainEventDispatcherPipeline<,>))
-            .AddValidatorsFromAssembly(Contract.AssemblyReference.Assembly, includeInternalTypes: true);
+            .AddValidatorsFromAssembly(AssemblyReference.Assembly, includeInternalTypes: true);
 
         public static IServiceCollection AddConfigureAutoMapper(this IServiceCollection services)
             => services.AddAutoMapper(AssemblyReference.Assembly);
