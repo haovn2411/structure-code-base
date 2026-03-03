@@ -14,10 +14,14 @@ namespace StructureCodeSolution.API.Controllers
         {
         }
         [HttpPost]
-        public async Task<Result> CreateDevices([FromBody] Command.CreateDeviceCommand createDevice)
+        public async Task<IActionResult> CreateDevices([FromBody] Command.CreateDeviceCommand createDevice)
         {
-            await Sender.Send(createDevice);
-            return Result.Success();
+            var result = await Sender.Send(createDevice);
+            if (result.IsFailure)
+            {
+                return HandlerFailure(result);
+            }
+            return Ok(result);
         }
     }
 }
