@@ -38,4 +38,8 @@
     <ProjectReference Include="..\StructureCodeSolution.Domain\StructureCodeSolution.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Usecases\V1\Products\Queries\" />
+  </ItemGroup>
+
 </Project>
