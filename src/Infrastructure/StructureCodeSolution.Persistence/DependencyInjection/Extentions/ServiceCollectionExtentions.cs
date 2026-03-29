@@ -23,10 +23,6 @@ namespace StructureCodeSolution.Persistence.DependencyInjection.Extentions
         {
             services.AddDbContextPool<DbContext, ApplicationDBContext>((provider, builder) =>
             {
-                // dùng để lấy configuration từ appsetting và map vào object
-                //var passwordValidatorOptions =
-                //    services.BuildServiceProvider().GetRequiredService<IOptionsMonitor<PasswordValidatorOptions>>();
-                //var auditableInterceptor = provider.GetService<UpdateAuditableEntitiesInterceptor>();
                 var configuration = provider.GetRequiredService<IConfiguration>();
                 var options = provider.GetRequiredService<IOptionsMonitor<SqlServerRetryOptions>>();
                 var auditableEntityInterceptor = provider.GetRequiredService<AuditableEntityInterceptor>();
@@ -34,7 +30,6 @@ namespace StructureCodeSolution.Persistence.DependencyInjection.Extentions
                 builder
                     .EnableDetailedErrors(true)
                     .EnableSensitiveDataLogging(true)
-                    .UseLazyLoadingProxies(true) // => If UseLazyLoadingProxies, all of the navigation fields should be VIRTUAL
                     .UseSqlServer(
                         connectionString: configuration.GetConnectionString("MyDbContext"),
                         sqlServerOptionsAction: optionsBuilder
@@ -77,6 +72,7 @@ namespace StructureCodeSolution.Persistence.DependencyInjection.Extentions
             services.AddTransient(typeof(IUnitOfWork), typeof(UnitOfWork));
             services.AddTransient(typeof(IRepositoryBase<,>), typeof(RepositoryBase<,>));
             services.AddTransient<IDeviceRepository, DeviceRepository>();
+            services.AddTransient<ICourseRepository, CourseRepository>();
         }
 
         public static void AddInterceptorPersistence(this IServiceCollection services)

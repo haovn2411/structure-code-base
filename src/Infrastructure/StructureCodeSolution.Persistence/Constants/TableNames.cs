@@ -20,5 +20,12 @@
         internal const string Product = nameof(Product);
         internal const string Device = nameof(Device);
 
+        // Course Aggregate
+        internal const string Courses = nameof(Courses);
+        internal const string Videos = nameof(Videos);
+        
+        // Reference Data
+        internal const string Categories = nameof(Categories);
+        internal const string Levels = nameof(Levels);
     }
 }

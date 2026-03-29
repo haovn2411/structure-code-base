@@ -58,5 +58,4 @@ namespace StructureCodeSolution.Application.Behaviors
             return (TResult)validationResult;
         }
     }
-
 }
