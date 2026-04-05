@@ -1,4 +1,4 @@
-﻿namespace StructureCodeSolution.Domain.Exceptions.Commons
+﻿namespace StructureCodeSolution.Domain.Abstractions.Exceptions
 {
     public abstract class BadRequestException : DomainException
     {
@@ -7,5 +7,4 @@
         {
         }
     }
-
 }

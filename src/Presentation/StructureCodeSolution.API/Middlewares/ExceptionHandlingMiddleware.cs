@@ -1,4 +1,5 @@
 ﻿using StructureCodeSolution.Application.Exceptions;
+using StructureCodeSolution.Domain.Abstractions.Exceptions;
 using StructureCodeSolution.Domain.Exceptions.Commons;
 using System.Text.Json;
 

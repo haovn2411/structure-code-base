@@ -1,4 +1,4 @@
-﻿using StructureCodeSolution.Domain.Exceptions.Commons;
+﻿using StructureCodeSolution.Domain.Abstractions.Exceptions;
 
 namespace StructureCodeSolution.Application.Exceptions
 {

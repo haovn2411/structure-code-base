@@ -1,4 +1,5 @@
 using StructureCodeSolution.Domain.Abstractions.Exceptions;
+using StructureCodeSolution.Domain.Exceptions.Commons;
 
 namespace StructureCodeSolution.Domain.Aggregates.Courses.Exceptions
 {

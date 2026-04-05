@@ -1,22 +1,11 @@
-namespace StructureCodeSolution.Domain.Abstractions.Exceptions
+﻿namespace StructureCodeSolution.Domain.Abstractions.Exceptions
 {
     public abstract class DomainException : Exception
     {
-        protected DomainException(string message) : base(message) { }
-    }
+        protected DomainException(string title, string message)
+            : base(message) =>
+            Title = title;
 
-    public abstract class NotFoundException : DomainException
-    {
-        protected NotFoundException(string message) : base(message) { }
-    }
-
-    public abstract class BadRequestException : DomainException
-    {
-        protected BadRequestException(string message) : base(message) { }
-    }
-
-    public abstract class ConflictException : DomainException
-    {
-        protected ConflictException(string message) : base(message) { }
+        public string Title { get; }
     }
 }
