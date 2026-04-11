@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using StructureCodeSolution.Application.Abstractions.Shared;
-using StructureCodeSolution.Domain.Abstractions;
 
 namespace StructureCodeSolution.API.Abstractions
 {
@@ -10,6 +9,9 @@ namespace StructureCodeSolution.API.Abstractions
         protected readonly ISender Sender;
 
         protected ApiController(ISender sender) => Sender = sender;
+
+        protected IActionResult HandleSuccess(Result result, int statusCode = StatusCodes.Status200OK)
+            => StatusCode(statusCode, result);
 
         protected IActionResult HandlerFailure(Result result) =>
         result switch

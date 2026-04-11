@@ -63,9 +63,9 @@ namespace StructureCodeSolution.Persistence.Configurations.Courses
                     .HasColumnName("NumberOfLessons")
                     .HasDefaultValue(0);
 
-                statsBuilder.Property(s => s.NumberOfHours)
-                    .HasColumnName("NumberOfHours")
-                    .HasDefaultValue(0);
+                statsBuilder.Property(s => s.TotalHours)
+                    .HasColumnName("TotalHours")
+                    .HasColumnType("decimal(4,1)");
             });
 
             builder.Property(x => x.ImageCode)

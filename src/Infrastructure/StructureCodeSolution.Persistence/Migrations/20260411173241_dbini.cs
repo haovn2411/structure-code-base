@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace StructureCodeSolution.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class dbinit : Migration
+    public partial class dbini : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -109,7 +109,7 @@ namespace StructureCodeSolution.Persistence.Migrations
                     NumberOfStudents = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
                     NumberOfComments = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
                     NumberOfLessons = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
-                    NumberOfHours = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
+                    TotalHours = table.Column<decimal>(type: "decimal(4,1)", nullable: false),
                     ImageCode = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     CategoryId = table.Column<int>(type: "int", nullable: true),
                     LevelId = table.Column<int>(type: "int", nullable: true),

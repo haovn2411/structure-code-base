@@ -296,7 +296,6 @@ namespace StructureCodeSolution.Persistence.Migrations
             modelBuilder.Entity("StructureCodeSolution.Domain.Aggregates.Courses.Video", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("CourseId")
@@ -656,12 +655,6 @@ namespace StructureCodeSolution.Persistence.Migrations
                                 .HasDefaultValue(0)
                                 .HasColumnName("NumberOfComments");
 
-                            b1.Property<int>("NumberOfHours")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasDefaultValue(0)
-                                .HasColumnName("NumberOfHours");
-
                             b1.Property<int>("NumberOfLessons")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("int")
@@ -673,6 +666,10 @@ namespace StructureCodeSolution.Persistence.Migrations
                                 .HasColumnType("int")
                                 .HasDefaultValue(0)
                                 .HasColumnName("NumberOfStudents");
+
+                            b1.Property<decimal>("TotalHours")
+                                .HasColumnType("decimal(4,1)")
+                                .HasColumnName("TotalHours");
 
                             b1.HasKey("CourseId");
 

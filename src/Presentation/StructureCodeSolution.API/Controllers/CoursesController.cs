@@ -18,21 +18,16 @@ namespace StructureCodeSolution.API.Controllers
         /// Create a new course
         /// </summary>
         [HttpPost]
-        [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreateCourse([FromBody] Command.CreateCourseCommand command)
         {
             var result = await Sender.Send(command);
-            
-            if (result.IsFailure)
-            {
-                return HandlerFailure(result);
-            }
 
-            return CreatedAtAction(
-                nameof(GetCourseById), 
-                new { courseId = result.Value }, 
-                result.Value);
+            if (result.IsFailure)
+                return HandlerFailure(result);
+
+            return HandleSuccess(result, StatusCodes.Status201Created);
         }
 
         /// <summary>
@@ -44,13 +39,11 @@ namespace StructureCodeSolution.API.Controllers
         public async Task<IActionResult> GetCourseById(Guid courseId)
         {
             var result = await Sender.Send(new Query.GetCourseByIdQuery(courseId));
-            
-            if (result.IsFailure)
-            {
-                return HandlerFailure(result);
-            }
 
-            return Ok(result.Value);
+            if (result.IsFailure)
+                return HandlerFailure(result);
+
+            return HandleSuccess(result);
         }
 
         /// <summary>
@@ -67,13 +60,11 @@ namespace StructureCodeSolution.API.Controllers
         {
             var query = new Query.GetAllCoursesQuery(pageIndex, pageSize, searchTerm, categoryId, levelId);
             var result = await Sender.Send(query);
-            
-            if (result.IsFailure)
-            {
-                return HandlerFailure(result);
-            }
 
-            return Ok(result.Value);
+            if (result.IsFailure)
+                return HandlerFailure(result);
+
+            return HandleSuccess(result);
         }
 
         /// <summary>
@@ -84,22 +75,18 @@ namespace StructureCodeSolution.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> UpdateCourse(
-            Guid courseId, 
+            Guid courseId,
             [FromBody] Command.UpdateCourseCommand command)
         {
             if (courseId != command.CourseId)
-            {
                 return BadRequest("Course ID mismatch");
-            }
 
             var result = await Sender.Send(command);
-            
-            if (result.IsFailure)
-            {
-                return HandlerFailure(result);
-            }
 
-            return Ok();
+            if (result.IsFailure)
+                return HandlerFailure(result);
+
+            return HandleSuccess(result);
         }
 
         /// <summary>
@@ -111,20 +98,18 @@ namespace StructureCodeSolution.API.Controllers
         public async Task<IActionResult> DeleteCourse(Guid courseId)
         {
             var result = await Sender.Send(new Command.DeleteCourseCommand(courseId));
-            
-            if (result.IsFailure)
-            {
-                return HandlerFailure(result);
-            }
 
-            return Ok();
+            if (result.IsFailure)
+                return HandlerFailure(result);
+
+            return HandleSuccess(result);
         }
 
         /// <summary>
         /// Add video to course
         /// </summary>
         [HttpPost("{courseId:guid}/videos")]
-        [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> AddVideo(
@@ -132,18 +117,14 @@ namespace StructureCodeSolution.API.Controllers
             [FromBody] Command.AddVideoToCourseCommand command)
         {
             if (courseId != command.CourseId)
-            {
                 return BadRequest("Course ID mismatch");
-            }
 
             var result = await Sender.Send(command);
-            
-            if (result.IsFailure)
-            {
-                return HandlerFailure(result);
-            }
 
-            return Ok(result.Value);
+            if (result.IsFailure)
+                return HandlerFailure(result);
+
+            return HandleSuccess(result, StatusCodes.Status201Created);
         }
 
         /// <summary>
@@ -155,13 +136,11 @@ namespace StructureCodeSolution.API.Controllers
         public async Task<IActionResult> GetCourseVideos(Guid courseId)
         {
             var result = await Sender.Send(new Query.GetCourseVideosQuery(courseId));
-            
-            if (result.IsFailure)
-            {
-                return HandlerFailure(result);
-            }
 
-            return Ok(result.Value);
+            if (result.IsFailure)
+                return HandlerFailure(result);
+
+            return HandleSuccess(result);
         }
 
         /// <summary>
@@ -174,13 +153,11 @@ namespace StructureCodeSolution.API.Controllers
         public async Task<IActionResult> PublishCourse(Guid courseId)
         {
             var result = await Sender.Send(new Command.PublishCourseCommand(courseId));
-            
-            if (result.IsFailure)
-            {
-                return HandlerFailure(result);
-            }
 
-            return Ok();
+            if (result.IsFailure)
+                return HandlerFailure(result);
+
+            return HandleSuccess(result);
         }
 
         /// <summary>
@@ -195,18 +172,14 @@ namespace StructureCodeSolution.API.Controllers
             [FromBody] Command.RateCourseCommand command)
         {
             if (courseId != command.CourseId)
-            {
                 return BadRequest("Course ID mismatch");
-            }
 
             var result = await Sender.Send(command);
-            
-            if (result.IsFailure)
-            {
-                return HandlerFailure(result);
-            }
 
-            return Ok();
+            if (result.IsFailure)
+                return HandlerFailure(result);
+
+            return HandleSuccess(result);
         }
 
         /// <summary>
@@ -218,13 +191,73 @@ namespace StructureCodeSolution.API.Controllers
         public async Task<IActionResult> EnrollStudent(Guid courseId)
         {
             var result = await Sender.Send(new Command.EnrollStudentCommand(courseId));
-            
-            if (result.IsFailure)
-            {
-                return HandlerFailure(result);
-            }
 
-            return Ok();
+            if (result.IsFailure)
+                return HandlerFailure(result);
+
+            return HandleSuccess(result);
+        }
+
+        /// <summary>
+        /// Update video
+        /// </summary>
+        [HttpPut("{courseId:guid}/videos/{videoId:guid}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> UpdateVideo(
+            Guid courseId,
+            Guid videoId,
+            [FromBody] Command.UpdateVideoCommand command)
+        {
+            if (courseId != command.CourseId || videoId != command.VideoId)
+                return BadRequest("Course ID or Video ID mismatch");
+
+            var result = await Sender.Send(command);
+
+            if (result.IsFailure)
+                return HandlerFailure(result);
+
+            return HandleSuccess(result);
+        }
+
+        /// <summary>
+        /// Remove video from course
+        /// </summary>
+        [HttpDelete("{courseId:guid}/videos/{videoId:guid}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> RemoveVideo(Guid courseId, Guid videoId)
+        {
+            var result = await Sender.Send(new Command.RemoveVideoCommand(courseId, videoId));
+
+            if (result.IsFailure)
+                return HandlerFailure(result);
+
+            return HandleSuccess(result);
+        }
+
+        /// <summary>
+        /// Reorder video in course
+        /// </summary>
+        [HttpPatch("{courseId:guid}/videos/{videoId:guid}/reorder")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> ReorderVideo(
+            Guid courseId,
+            Guid videoId,
+            [FromBody] Command.ReorderVideoCommand command)
+        {
+            if (courseId != command.CourseId || videoId != command.VideoId)
+                return BadRequest("Course ID or Video ID mismatch");
+
+            var result = await Sender.Send(command);
+
+            if (result.IsFailure)
+                return HandlerFailure(result);
+
+            return HandleSuccess(result);
         }
     }
 }

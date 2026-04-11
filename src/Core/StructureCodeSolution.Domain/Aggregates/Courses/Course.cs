@@ -138,7 +138,7 @@ namespace StructureCodeSolution.Domain.Aggregates.Courses
         private void RecalculateStatistics()
         {
             var totalLessons = _videos.Count;
-            var totalHours = (int)Math.Ceiling(_videos.Sum(v => v.Duration.TotalHours));
+            var totalHours = (decimal)_videos.Sum(v => v.Duration.TotalHours);
 
             Statistics.UpdateLessonsAndHours(totalLessons, totalHours);
         }

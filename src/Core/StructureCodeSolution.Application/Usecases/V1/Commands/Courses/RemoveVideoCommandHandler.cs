@@ -7,39 +7,28 @@ using StructureCodeSolution.Domain.Abstractions.Repositories;
 
 namespace StructureCodeSolution.Application.Usecases.V1.Commands.Courses
 {
-    public class AddVideoToCourseCommandHandler : ICommandHandler<Command.AddVideoToCourseCommand>
+    public class RemoveVideoCommandHandler : ICommandHandler<Command.RemoveVideoCommand>
     {
         private readonly ICourseRepository _courseRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public AddVideoToCourseCommandHandler(ICourseRepository courseRepository, IUnitOfWork unitOfWork)
+        public RemoveVideoCommandHandler(ICourseRepository courseRepository, IUnitOfWork unitOfWork)
         {
             _courseRepository = courseRepository;
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Result> Handle(Command.AddVideoToCourseCommand request, CancellationToken cancellationToken)
+        public async Task<Result> Handle(Command.RemoveVideoCommand request, CancellationToken cancellationToken)
         {
             try
             {
-                var course = await _courseRepository.GetByIdAsync(
-                    request.CourseId);
+                var course = await _courseRepository.GetByIdAsync(request.CourseId, cancellationToken);
                 if (course is null)
-                {
-                    return Result.Failure(new Error(
-                        "Course.NotFound",
-                        $"Course with id '{request.CourseId}' was not found"));
-                }
+                    return Result.Failure(new Error("Course.NotFound", $"Course with id '{request.CourseId}' was not found"));
 
-                course.AddVideo(
-                    request.Title,
-                    request.Description,
-                    request.Duration,
-                    request.Order);
-
+                course.RemoveVideo(request.VideoId);
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-                var addedVideo = course.Videos.OrderByDescending(v => v.CreatedDate).First();
                 return Result.Success();
             }
             catch (DomainException ex)
