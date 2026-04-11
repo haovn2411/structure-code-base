@@ -23,8 +23,6 @@ namespace StructureCodeSolution.Persistence
         public void Delete(TEntity entity)
             => _dbContext.Set<TEntity>().Remove(entity);
 
-
-
         public IQueryable<TEntity> GetAll(Expression<Func<TEntity, bool>>? predicate = null, params Expression<Func<TEntity, object>>[] includeProperties)
         {
             IQueryable<TEntity> items = _dbContext.Set<TEntity>().AsNoTracking(); // Importance Always include AsNoTracking for Query Side
@@ -40,7 +38,6 @@ namespace StructureCodeSolution.Persistence
             => await GetAll(null, includeProperties)
             .AsTracking()
             .SingleOrDefaultAsync(x => x.Id.Equals(id), cancellationToken);
-
 
         public async Task<TEntity> GetSingleAsync(Expression<Func<TEntity, bool>>? predicate = null, CancellationToken cancellationToken = default, params Expression<Func<TEntity, object>>[] includeProperties)
             => await GetAll(null, includeProperties)

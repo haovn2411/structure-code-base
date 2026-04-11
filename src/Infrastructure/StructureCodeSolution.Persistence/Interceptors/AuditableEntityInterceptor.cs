@@ -20,6 +20,7 @@ namespace StructureCodeSolution.Persistence.Interceptors
             UpdateEntities(eventData.Context);
             return await base.SavingChangesAsync(eventData, result, cancellationToken);
         }
+
         private void UpdateEntities(DbContext? context)
         {
             if (context == null) { return; }
@@ -31,6 +32,8 @@ namespace StructureCodeSolution.Persistence.Interceptors
 
             foreach (var entry in context.ChangeTracker.Entries())
             {
+                Console.WriteLine(entry.Entity + ":");
+                Console.WriteLine(entry.State);
                 // Date Tracking
                 if (entry.Entity is IDateTracking dateTracking)
                 {

@@ -13,9 +13,10 @@ namespace StructureCodeSolution.Persistence.Configurations.Courses
 
             builder.HasKey(x => x.Id);
 
-            // Shadow property cho CourseId (không có trong domain model)
             builder.Property<Guid>("CourseId")
                 .IsRequired();
+
+            builder.Property<Guid>(x => x.Id).ValueGeneratedNever();
 
             builder.Property(x => x.Title)
                 .IsRequired(true)

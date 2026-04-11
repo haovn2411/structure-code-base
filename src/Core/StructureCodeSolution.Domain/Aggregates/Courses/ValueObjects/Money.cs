@@ -7,6 +7,8 @@ namespace StructureCodeSolution.Domain.Aggregates.Courses.ValueObjects
         public decimal Amount { get; private set; }
         public string Currency { get; private set; }
 
+        private Money() { }
+
         private Money(decimal amount, string currency)
         {
             Amount = amount;
@@ -32,5 +34,21 @@ namespace StructureCodeSolution.Domain.Aggregates.Courses.ValueObjects
         }
 
         public override string ToString() => $"{Amount} {Currency}";
+
+        public void UpdateAmount(decimal amount)
+        {
+            if (amount < 0)
+                throw new ArgumentException("Price cannot be negative", nameof(amount));
+
+            Amount = amount;
+        }
+
+        public void UpdateCurrency(string currency)
+        {
+            if (string.IsNullOrWhiteSpace(currency))
+                throw new ArgumentException("Currency cannot be empty", nameof(currency));
+
+            Currency = currency;
+        }
     }
 }

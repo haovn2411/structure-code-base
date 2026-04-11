@@ -14,23 +14,22 @@ namespace StructureCodeSolution.Persistence
         public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options)
             : base(options)
         {
-
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
-            => builder.ApplyConfigurationsFromAssembly(AssemblyReference.Assembly);
+                    => builder.ApplyConfigurationsFromAssembly(AssemblyReference.Assembly);
 
         public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<AppRole> AppRoles { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Device> Devices { get; set; }
-        
+
         // Course Aggregate
         public DbSet<Course> Courses { get; set; }
-        public DbSet<Video> Videos { get; set; }
-        
+
         // Reference Data
         public DbSet<Category> Categories { get; set; }
+
         public DbSet<Level> Levels { get; set; }
     }
 }

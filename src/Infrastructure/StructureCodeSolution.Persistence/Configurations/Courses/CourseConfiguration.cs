@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using StructureCodeSolution.Domain.Aggregates.Courses;
-using StructureCodeSolution.Domain.Aggregates.Courses.ValueObjects;
 using StructureCodeSolution.Persistence.Constants;
 
 namespace StructureCodeSolution.Persistence.Configurations.Courses
@@ -76,11 +75,10 @@ namespace StructureCodeSolution.Persistence.Configurations.Courses
             builder.Property(x => x.CategoryId);
             builder.Property(x => x.LevelId);
 
-            // ? Ignore public property - ch? dùng backing field
-            builder.Ignore(x => x.Videos);
+
 
             // Relationships - One-to-Many v?i Video (s? d?ng backing field)
-            builder.HasMany<Video>("_videos")
+            builder.HasMany(x => x.Videos)
                 .WithOne()
                 .HasForeignKey("CourseId")  // Shadow property
                 .OnDelete(DeleteBehavior.Cascade);

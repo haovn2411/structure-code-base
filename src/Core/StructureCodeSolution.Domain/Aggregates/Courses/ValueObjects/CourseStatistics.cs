@@ -9,6 +9,8 @@ namespace StructureCodeSolution.Domain.Aggregates.Courses.ValueObjects
         public int NumberOfLessons { get; private set; }
         public int NumberOfHours { get; private set; }
 
+        private CourseStatistics() { }
+
         private CourseStatistics(int numberOfStudents, int numberOfComments, int numberOfLessons, int numberOfHours)
         {
             NumberOfStudents = numberOfStudents;
@@ -19,18 +21,19 @@ namespace StructureCodeSolution.Domain.Aggregates.Courses.ValueObjects
 
         public static CourseStatistics Create() => new CourseStatistics(0, 0, 0, 0);
 
-        public CourseStatistics IncrementStudents() 
-            => new CourseStatistics(NumberOfStudents + 1, NumberOfComments, NumberOfLessons, NumberOfHours);
+        public void IncrementStudents()
+            => NumberOfStudents++;
 
-        public CourseStatistics IncrementComments() 
-            => new CourseStatistics(NumberOfStudents, NumberOfComments + 1, NumberOfLessons, NumberOfHours);
+        public void IncrementComments()
+            => NumberOfComments++;
 
-        public CourseStatistics UpdateLessonsAndHours(int lessons, int hours)
+        public void UpdateLessonsAndHours(int lessons, int hours)
         {
             if (lessons < 0 || hours < 0)
                 throw new ArgumentException("Lessons and hours cannot be negative");
 
-            return new CourseStatistics(NumberOfStudents, NumberOfComments, lessons, hours);
+            NumberOfLessons = lessons;
+            NumberOfHours = hours;
         }
 
         protected override IEnumerable<object> GetEqualityComponents()

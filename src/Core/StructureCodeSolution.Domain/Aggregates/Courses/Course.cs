@@ -18,12 +18,14 @@ namespace StructureCodeSolution.Domain.Aggregates.Courses
 
         // Foreign Keys to other aggregates
         public int? CategoryId { get; private set; }
+
         public int? LevelId { get; private set; }
 
         // Collection - chỉ expose read-only
         public IReadOnlyCollection<Video> Videos => _videos.AsReadOnly();
 
-        private Course() { }
+        private Course()
+        { }
 
         private Course(string name, string? summaryDescription, Money price, string? imageCode, int? categoryId, int? levelId)
         {
@@ -45,10 +47,10 @@ namespace StructureCodeSolution.Domain.Aggregates.Courses
         {
             var course = new Course(name, summaryDescription, price, imageCode, categoryId, levelId);
             course.Raise(new CourseCreatedDomainEvent(
-                course.Id, 
-                name, 
-                summaryDescription, 
-                price.Amount, 
+                course.Id,
+                name,
+                summaryDescription,
+                price.Amount,
                 imageCode));
             return course;
         }
@@ -56,20 +58,20 @@ namespace StructureCodeSolution.Domain.Aggregates.Courses
         // ===== VIDEO MANAGEMENT =====
         public void AddVideo(string title, string? description, TimeSpan duration, int? order = null)
         {
-            // Nếu không truyền order, tự động tính order tiếp theo
-            var videoOrder = order ?? _videos.Count;
-            
-            // Kiểm tra trùng order
-            if (_videos.Any(v => v.Order == videoOrder))
-                throw new VideoException.DuplicateVideoOrderException(videoOrder);
+            //// Nếu không truyền order, tự động tính order tiếp theo
+            //var videoOrder = order ?? _videos.Count;
 
-            var video = Video.Create(title, description, duration, videoOrder);
+            //// Kiểm tra trùng order
+            //if (_videos.Any(v => v.Order == videoOrder))
+            //    throw new VideoException.DuplicateVideoOrderException(videoOrder);
+
+            var video = Video.Create(title, description, duration, order ?? 0);
             _videos.Add(video);
 
             // Update statistics
             RecalculateStatistics();
 
-            Raise(new VideoAddedDomainEvent(this.Id, video.Id, title, description, duration, videoOrder));
+            Raise(new VideoAddedDomainEvent(this.Id, video.Id, title, description, duration, order ?? 0));
         }
 
         public void RemoveVideo(Guid videoId)
@@ -79,7 +81,7 @@ namespace StructureCodeSolution.Domain.Aggregates.Courses
                 throw new VideoException.VideoNotFoundException(videoId);
 
             _videos.Remove(video);
-            
+
             // Reorder remaining videos
             ReorderVideos();
             RecalculateStatistics();
@@ -137,22 +139,23 @@ namespace StructureCodeSolution.Domain.Aggregates.Courses
         {
             var totalLessons = _videos.Count;
             var totalHours = (int)Math.Ceiling(_videos.Sum(v => v.Duration.TotalHours));
-            
-            Statistics = Statistics.UpdateLessonsAndHours(totalLessons, totalHours);
+
+            Statistics.UpdateLessonsAndHours(totalLessons, totalHours);
         }
 
         // ===== COURSE MANAGEMENT =====
-        public void UpdateCourse(string name, string? summaryDescription, Money price, string? imageCode)
+        public void UpdateCourse(string name, string? summaryDescription, decimal price, string currency, string? imageCode)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new CourseException.InvalidCourseNameException();
 
             Name = name;
             SummaryDescription = summaryDescription;
-            Price = price ?? Price;
+            Price.UpdateAmount(price);
+            Price.UpdateCurrency(currency);
             ImageCode = imageCode;
-            
-            Raise(new CourseUpdatedDomainEvent(this.Id, name, summaryDescription, price.Amount, imageCode));
+
+            Raise(new CourseUpdatedDomainEvent(this.Id, name, summaryDescription, price, imageCode));
         }
 
         public void UpdateCategory(int categoryId)
@@ -176,19 +179,19 @@ namespace StructureCodeSolution.Domain.Aggregates.Courses
         // ===== RATING & ENGAGEMENT =====
         public void AddRating(decimal starRating)
         {
-            Rating = Rating.AddRating(starRating);
+            Rating.AddRating(starRating);
             Raise(new CourseRatedDomainEvent(this.Id, starRating, Rating.StarRating, Rating.NumberOfRatings));
         }
 
         public void EnrollStudent()
         {
-            Statistics = Statistics.IncrementStudents();
+            Statistics.IncrementStudents();
             Raise(new StudentEnrolledDomainEvent(this.Id, Statistics.NumberOfStudents));
         }
 
         public void AddComment()
         {
-            Statistics = Statistics.IncrementComments();
+            Statistics.IncrementComments();
         }
 
         // ===== PUBLISHING =====

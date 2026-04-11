@@ -19,12 +19,5 @@ namespace StructureCodeSolution.Persistence.Repositories
                 .AsNoTracking()
                 .AnyAsync(c => c.Name == name, cancellationToken);
         }
-
-        public new async Task<Course?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
-        {
-            return await _dbContext.Courses
-                .Include("_videos")
-                .FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
-        }
     }
 }

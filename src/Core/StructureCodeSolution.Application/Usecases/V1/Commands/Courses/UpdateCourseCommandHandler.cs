@@ -31,15 +31,13 @@ namespace StructureCodeSolution.Application.Usecases.V1.Commands.Courses
                         $"Course with id '{request.CourseId}' was not found"));
                 }
 
-                var price = Money.Create(request.Price, request.Currency);
-
                 course.UpdateCourse(
                     request.Name,
                     request.SummaryDescription,
-                    price,
+                    request.Price,
+                    request.Currency,
                     request.ImageCode);
 
-                _courseRepository.Update(course);
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
 
                 return Result.Success();

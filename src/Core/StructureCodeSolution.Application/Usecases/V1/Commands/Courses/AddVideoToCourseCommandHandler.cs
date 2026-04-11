@@ -4,7 +4,6 @@ using StructureCodeSolution.Application.Usecases.V1.Commands.Courses.Abstracts;
 using StructureCodeSolution.Domain.Abstractions;
 using StructureCodeSolution.Domain.Abstractions.Exceptions;
 using StructureCodeSolution.Domain.Abstractions.Repositories;
-using StructureCodeSolution.Domain.Aggregates.Courses;
 
 namespace StructureCodeSolution.Application.Usecases.V1.Commands.Courses
 {
@@ -23,7 +22,8 @@ namespace StructureCodeSolution.Application.Usecases.V1.Commands.Courses
         {
             try
             {
-                var course = await _courseRepository.GetByIdAsync(request.CourseId, cancellationToken);
+                var course = await _courseRepository.GetByIdAsync(
+                    request.CourseId);
                 if (course is null)
                 {
                     return Result.Failure<Guid>(new Error(
@@ -37,7 +37,6 @@ namespace StructureCodeSolution.Application.Usecases.V1.Commands.Courses
                     request.Duration,
                     request.Order);
 
-                _courseRepository.Update(course);
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
 
                 var addedVideo = course.Videos.OrderByDescending(v => v.CreatedDate).First();

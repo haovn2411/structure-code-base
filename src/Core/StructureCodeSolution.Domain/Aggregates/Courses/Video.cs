@@ -12,16 +12,17 @@ namespace StructureCodeSolution.Domain.Aggregates.Courses
         public bool IsPublished { get; private set; }
         public string? VideoUrl { get; private set; }
 
-        private Video() { }
+        private Video()
+        { }
 
         private Video(string title, string? description, TimeSpan duration, int order)
         {
             if (string.IsNullOrWhiteSpace(title))
                 throw new VideoException.InvalidVideoTitleException();
-            
+
             if (duration <= TimeSpan.Zero)
                 throw new VideoException.InvalidVideoDurationException();
-            
+
             if (order < 0)
                 throw new VideoException.InvalidVideoOrderException(order);
 

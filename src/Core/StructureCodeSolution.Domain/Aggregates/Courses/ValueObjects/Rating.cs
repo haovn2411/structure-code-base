@@ -8,6 +8,8 @@ namespace StructureCodeSolution.Domain.Aggregates.Courses.ValueObjects
         public decimal StarRating { get; private set; }
         public int NumberOfRatings { get; private set; }
 
+        private Rating() { }
+
         private Rating(decimal starRating, int numberOfRatings)
         {
             StarRating = starRating;
@@ -27,16 +29,14 @@ namespace StructureCodeSolution.Domain.Aggregates.Courses.ValueObjects
             return new Rating(starRating, numberOfRatings);
         }
 
-        public Rating AddRating(decimal newRating)
+        public void AddRating(decimal newRating)
         {
             if (newRating < 0 || newRating > 5)
                 throw new RatingException.InvalidRatingException();
 
             var totalStars = (StarRating * NumberOfRatings) + newRating;
-            var newNumberOfRatings = NumberOfRatings + 1;
-            var newAverageRating = totalStars / newNumberOfRatings;
-
-            return new Rating(Math.Round(newAverageRating, 2), newNumberOfRatings);
+            NumberOfRatings++;
+            StarRating = Math.Round(totalStars / NumberOfRatings, 2);
         }
 
         protected override IEnumerable<object> GetEqualityComponents()
