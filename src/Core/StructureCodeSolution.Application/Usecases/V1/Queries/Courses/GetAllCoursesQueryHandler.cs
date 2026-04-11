@@ -1,13 +1,13 @@
 using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using StructureCodeSolution.Application.Abstractions.Message;
 using StructureCodeSolution.Application.Abstractions.Shared;
 using StructureCodeSolution.Application.Usecases.V1.Queries.Courses.Abstracts;
 using StructureCodeSolution.Domain.Abstractions.Repositories;
+using StructureCodeSolution.Domain.Aggregates.Courses;
 
 namespace StructureCodeSolution.Application.Usecases.V1.Queries.Courses
 {
-    public class GetAllCoursesQueryHandler : IQueryHandler<Query.GetAllCoursesQuery, Response.CourseListResponse>
+    public class GetAllCoursesQueryHandler : IQueryHandler<Query.GetAllCoursesQuery, PagedResult<Response.CourseResponse>>
     {
         private readonly ICourseRepository _courseRepository;
         private readonly IMapper _mapper;
@@ -18,54 +18,35 @@ namespace StructureCodeSolution.Application.Usecases.V1.Queries.Courses
             _mapper = mapper;
         }
 
-        public async Task<Result<Response.CourseListResponse>> Handle(Query.GetAllCoursesQuery request, CancellationToken cancellationToken)
+        public async Task<Result<PagedResult<Response.CourseResponse>>> Handle(Query.GetAllCoursesQuery request, CancellationToken cancellationToken)
         {
-            var query = _courseRepository.GetAll();
+            var coursesQuery = _courseRepository.GetAll();
 
-            // Apply filters
             if (!string.IsNullOrWhiteSpace(request.SearchTerm))
             {
-                query = query.Where(c => 
-                    c.Name.Contains(request.SearchTerm) || 
-                    (c.SummaryDescription != null && c.SummaryDescription.Contains(request.SearchTerm)));
+                var searchTerm = request.SearchTerm.Trim().ToLower();
+                coursesQuery = coursesQuery.Where(
+                    c => c.Name.ToLower().Contains(searchTerm)
+                    || (c.SummaryDescription != null
+                        && c.SummaryDescription.ToLower().Contains(searchTerm)));
             }
 
             if (request.CategoryId.HasValue)
             {
-                query = query.Where(c => c.CategoryId == request.CategoryId.Value);
+                coursesQuery = coursesQuery.Where(c => c.CategoryId == request.CategoryId.Value);
             }
 
             if (request.LevelId.HasValue)
             {
-                query = query.Where(c => c.LevelId == request.LevelId.Value);
+                coursesQuery = coursesQuery.Where(c => c.LevelId == request.LevelId.Value);
             }
 
-            // Get total count
-            var totalCount = await query.CountAsync(cancellationToken);
+            var courses = await PagedResult<Course>
+                .CreateAsync(coursesQuery, request.PageIndex, request.PageSize);
 
-            // Apply pagination
-            var pageIndex = request.PageIndex <= 0 ? 1 : request.PageIndex;
-            var pageSize = request.PageSize <= 0 ? 10 : request.PageSize > 100 ? 100 : request.PageSize;
+            var result = _mapper.Map<PagedResult<Response.CourseResponse>>(courses);
 
-            // ? Include Videos collection
-            var courses = await query
-                .Include("_videos")  // ? Explicit include
-                .OrderByDescending(c => c.CreatedDate)
-                .Skip((pageIndex - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync(cancellationToken);
-
-            var courseResponses = _mapper.Map<List<Response.CourseResponse>>(courses);
-
-            var response = new Response.CourseListResponse(
-                courseResponses,
-                pageIndex,
-                pageSize,
-                totalCount,
-                pageIndex * pageSize < totalCount,
-                pageIndex > 1);
-
-            return Result.Success(response);
+            return Result.Success(result);
         }
     }
 }

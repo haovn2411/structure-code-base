@@ -36,6 +36,19 @@ namespace StructureCodeSolution.Domain.Aggregates.Courses.ValueObjects
             TotalHours = Math.Round(hours, 1);
         }
 
+        public void AddLesson(decimal hours)
+        {
+            NumberOfLessons++;
+            TotalHours = Math.Round(TotalHours + hours, 1);
+        }
+
+        public void RemoveLesson(decimal hours)
+        {
+            if (NumberOfLessons > 0)
+                NumberOfLessons--;
+            TotalHours = Math.Round(Math.Max(0, TotalHours - hours), 1);
+        }
+
         protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return NumberOfStudents;

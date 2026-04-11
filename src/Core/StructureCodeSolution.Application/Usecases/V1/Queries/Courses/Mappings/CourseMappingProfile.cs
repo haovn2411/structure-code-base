@@ -1,4 +1,5 @@
 using AutoMapper;
+using StructureCodeSolution.Application.Abstractions.Shared;
 using StructureCodeSolution.Application.Usecases.V1.Queries.Courses.Abstracts;
 using StructureCodeSolution.Domain.Aggregates.Courses;
 
@@ -17,11 +18,8 @@ namespace StructureCodeSolution.Application.Usecases.V1.Queries.Courses.Mappings
                 .ForMember(dest => dest.NumberOfStudents, opt => opt.MapFrom(src => src.Statistics.NumberOfStudents))
                 .ForMember(dest => dest.NumberOfComments, opt => opt.MapFrom(src => src.Statistics.NumberOfComments))
                 .ForMember(dest => dest.NumberOfLessons, opt => opt.MapFrom(src => src.Statistics.NumberOfLessons))
-                .ForMember(dest => dest.NumberOfHours, opt => opt.MapFrom(src => src.Statistics.TotalHours))
-                .ForMember(dest => dest.Videos, opt => opt.MapFrom(src => src.Videos.OrderBy(v => v.Order)));
-
-            // Video -> VideoResponse
-            CreateMap<Video, Response.VideoResponse>();
+                .ForMember(dest => dest.TotalHours, opt => opt.MapFrom(src => src.Statistics.TotalHours));
+            CreateMap<PagedResult<Course>, PagedResult<Response.CourseResponse>>();
         }
     }
 }

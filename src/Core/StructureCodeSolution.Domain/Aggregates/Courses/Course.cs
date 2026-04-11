@@ -58,18 +58,10 @@ namespace StructureCodeSolution.Domain.Aggregates.Courses
         // ===== VIDEO MANAGEMENT =====
         public void AddVideo(string title, string? description, TimeSpan duration, int? order = null)
         {
-            //// Nếu không truyền order, tự động tính order tiếp theo
-            //var videoOrder = order ?? _videos.Count;
-
-            //// Kiểm tra trùng order
-            //if (_videos.Any(v => v.Order == videoOrder))
-            //    throw new VideoException.DuplicateVideoOrderException(videoOrder);
-
             var video = Video.Create(title, description, duration, order ?? 0);
             _videos.Add(video);
 
-            // Update statistics
-            RecalculateStatistics();
+            Statistics.AddLesson((decimal)duration.TotalHours);
 
             Raise(new VideoAddedDomainEvent(this.Id, video.Id, title, description, duration, order ?? 0));
         }
@@ -82,7 +74,6 @@ namespace StructureCodeSolution.Domain.Aggregates.Courses
 
             _videos.Remove(video);
 
-            // Reorder remaining videos
             ReorderVideos();
             RecalculateStatistics();
 

@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using StructureCodeSolution.API.Abstractions;
+using StructureCodeSolution.Application.Abstractions.Shared;
 using StructureCodeSolution.Application.Usecases.V1.Commands.Courses.Abstracts;
 using StructureCodeSolution.Application.Usecases.V1.Queries.Courses.Abstracts;
 
@@ -50,7 +51,7 @@ namespace StructureCodeSolution.API.Controllers
         /// Get all courses with pagination and filters
         /// </summary>
         [HttpGet]
-        [ProducesResponseType(typeof(Response.CourseListResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PagedResult<Response.CourseResponse>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAllCourses(
             [FromQuery] int pageIndex = 1,
             [FromQuery] int pageSize = 10,
@@ -127,21 +128,21 @@ namespace StructureCodeSolution.API.Controllers
             return HandleSuccess(result, StatusCodes.Status201Created);
         }
 
-        /// <summary>
-        /// Get course videos
-        /// </summary>
-        [HttpGet("{courseId:guid}/videos")]
-        [ProducesResponseType(typeof(Response.VideoListResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetCourseVideos(Guid courseId)
-        {
-            var result = await Sender.Send(new Query.GetCourseVideosQuery(courseId));
+        ///// <summary>
+        ///// Get course videos
+        ///// </summary>
+        //[HttpGet("{courseId:guid}/videos")]
+        //[ProducesResponseType(typeof(Response.VideoListResponse), StatusCodes.Status200OK)]
+        //[ProducesResponseType(StatusCodes.Status404NotFound)]
+        //public async Task<IActionResult> GetCourseVideos(Guid courseId)
+        //{
+        //    var result = await Sender.Send(new Query.GetCourseVideosQuery(courseId));
 
-            if (result.IsFailure)
-                return HandlerFailure(result);
+        //    if (result.IsFailure)
+        //        return HandlerFailure(result);
 
-            return HandleSuccess(result);
-        }
+        //    return HandleSuccess(result);
+        //}
 
         /// <summary>
         /// Publish course
