@@ -25,54 +25,46 @@ namespace StructureCodeSolution.Persistence.Interceptors
         {
             if (context == null) { return; }
 
-            var serviceScope = _serviceProvider.CreateScope();
+            using var serviceScope = _serviceProvider.CreateScope();
             var currentUserService = serviceScope.ServiceProvider.GetRequiredService<ICurrentUserService>();
             var userId = currentUserService.UserId;
             var now = DateTimeOffset.UtcNow;
 
             foreach (var entry in context.ChangeTracker.Entries())
             {
-                Console.WriteLine(entry.Entity + ":");
-                Console.WriteLine(entry.State);
+                var isSoftDeleting = entry.Entity is ISoftDelete
+                    && entry.State == EntityState.Modified
+                    && entry.Property(nameof(ISoftDelete.IsDeleted)).IsModified
+                    && entry.Property(nameof(ISoftDelete.IsDeleted)).CurrentValue is true;
+
+                var isModified = !isSoftDeleting
+                    && (entry.State == EntityState.Modified
+                        || entry.References.Any(r =>
+                            r.TargetEntry != null
+                            && r.TargetEntry.Metadata.IsOwned()
+                            && r.TargetEntry.State == EntityState.Modified));
+
                 // Date Tracking
                 if (entry.Entity is IDateTracking dateTracking)
                 {
                     if (entry.State == EntityState.Added)
-                    {
                         dateTracking.CreatedDate = now;
-                    }
-                    else if (entry.State == EntityState.Modified
-                        && !entry.Property(nameof(ISoftDelete.IsDeleted)).IsModified)
-                    {
+                    else if (isModified)
                         dateTracking.ModifiedDate = now;
-                    }
                 }
 
                 // User Tracking
                 if (entry.Entity is IUserTracking userTracking)
                 {
                     if (entry.State == EntityState.Added)
-                    {
                         userTracking.CreatedBy = userId;
-                    }
-                    else if (entry.State == EntityState.Modified
-                        && !entry.Property(nameof(ISoftDelete.IsDeleted)).IsModified)
-                    {
+                    else if (isModified)
                         userTracking.ModifiedBy = userId;
-                    }
                 }
 
                 // Soft Delete
-                if (entry.Entity is ISoftDelete softDelete
-                    && entry.State == EntityState.Modified
-                    && entry.Property(nameof(ISoftDelete.IsDeleted)).IsModified)
-                {
-                    var isDeleted = entry.Property(nameof(ISoftDelete.IsDeleted)).CurrentValue as bool?;
-                    if (isDeleted.HasValue && isDeleted.Value)
-                    {
-                        softDelete.DeletedAt = now;
-                    }
-                }
+                if (isSoftDeleting && entry.Entity is ISoftDelete softDelete)
+                    softDelete.DeletedAt = now;
             }
         }
     }
