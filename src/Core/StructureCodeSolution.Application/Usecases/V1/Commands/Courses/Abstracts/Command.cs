@@ -11,7 +11,7 @@ namespace StructureCodeSolution.Application.Usecases.V1.Commands.Courses.Abstrac
             string Currency,
             string? ImageCode,
             int? CategoryId,
-            int? LevelId) : ICommand;
+            int? LevelId) : ICommand<Guid>;
 
         public record UpdateCourseCommand(
             Guid CourseId,
@@ -28,7 +28,7 @@ namespace StructureCodeSolution.Application.Usecases.V1.Commands.Courses.Abstrac
             string Title,
             string? Description,
             TimeSpan Duration,
-            int? Order) : ICommand;
+            int? Order) : ICommand<Guid>;
 
         public record UpdateVideoCommand(
             Guid CourseId,

@@ -56,7 +56,7 @@ namespace StructureCodeSolution.Domain.Aggregates.Courses
         }
 
         // ===== VIDEO MANAGEMENT =====
-        public void AddVideo(string title, string? description, TimeSpan duration, int? order = null)
+        public Video AddVideo(string title, string? description, TimeSpan duration, int? order = null)
         {
             var video = Video.Create(title, description, duration, order ?? 0);
             _videos.Add(video);
@@ -64,6 +64,8 @@ namespace StructureCodeSolution.Domain.Aggregates.Courses
             Statistics.AddLesson((decimal)duration.TotalHours);
 
             Raise(new VideoAddedDomainEvent(this.Id, video.Id, title, description, duration, order ?? 0));
+
+            return video;
         }
 
         public void RemoveVideo(Guid videoId)

@@ -8,7 +8,7 @@ using StructureCodeSolution.Domain.Aggregates.Courses.ValueObjects;
 
 namespace StructureCodeSolution.Application.Usecases.V1.Commands.Courses
 {
-    public class CreateCourseCommandHandler : ICommandHandler<Command.CreateCourseCommand>
+    public class CreateCourseCommandHandler : ICommandHandler<Command.CreateCourseCommand, Guid>
     {
         private readonly ICourseRepository _courseRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -19,7 +19,7 @@ namespace StructureCodeSolution.Application.Usecases.V1.Commands.Courses
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Result> Handle(Command.CreateCourseCommand request, CancellationToken cancellationToken)
+        public async Task<Result<Guid>> Handle(Command.CreateCourseCommand request, CancellationToken cancellationToken)
         {
             try
             {

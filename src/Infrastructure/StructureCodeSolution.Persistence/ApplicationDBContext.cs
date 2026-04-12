@@ -27,6 +27,8 @@ namespace StructureCodeSolution.Persistence
         // Course Aggregate
         public DbSet<Course> Courses { get; set; }
 
+        public DbSet<Video> Videos { get; set; }
+
         // Reference Data
         public DbSet<Category> Categories { get; set; }
 

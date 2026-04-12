@@ -7,7 +7,7 @@ using StructureCodeSolution.Domain.Abstractions.Repositories;
 
 namespace StructureCodeSolution.Application.Usecases.V1.Commands.Courses
 {
-    public class AddVideoToCourseCommandHandler : ICommandHandler<Command.AddVideoToCourseCommand>
+    public class AddVideoToCourseCommandHandler : ICommandHandler<Command.AddVideoToCourseCommand, Guid>
     {
         private readonly ICourseRepository _courseRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -18,7 +18,7 @@ namespace StructureCodeSolution.Application.Usecases.V1.Commands.Courses
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Result> Handle(Command.AddVideoToCourseCommand request, CancellationToken cancellationToken)
+        public async Task<Result<Guid>> Handle(Command.AddVideoToCourseCommand request, CancellationToken cancellationToken)
         {
             try
             {
@@ -26,25 +26,23 @@ namespace StructureCodeSolution.Application.Usecases.V1.Commands.Courses
                     request.CourseId);
                 if (course is null)
                 {
-                    return Result.Failure(new Error(
+                    return Result.Failure<Guid>(new Error(
                         "Course.NotFound",
                         $"Course with id '{request.CourseId}' was not found"));
                 }
 
-                course.AddVideo(
+                var video = course.AddVideo(
                     request.Title,
                     request.Description,
                     request.Duration,
                     request.Order);
 
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
-
-                var addedVideo = course.Videos.OrderByDescending(v => v.CreatedDate).First();
-                return Result.Success();
+                return Result.Success(video.Id);
             }
             catch (DomainException ex)
             {
-                return Result.Failure(new Error(ex.GetType().Name, ex.Message));
+                return Result.Failure<Guid>(new Error(ex.GetType().Name, ex.Message));
             }
         }
     }

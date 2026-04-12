@@ -20,7 +20,7 @@ namespace StructureCodeSolution.Application.Usecases.V1.Queries.Courses
         public async Task<Result<Response.CourseResponse>> Handle(Query.GetCourseByIdQuery request, CancellationToken cancellationToken)
         {
             var course = await _courseRepository.GetByIdAsync(request.CourseId, cancellationToken);
-            
+
             if (course is null)
             {
                 return Result.Failure<Response.CourseResponse>(new Error(

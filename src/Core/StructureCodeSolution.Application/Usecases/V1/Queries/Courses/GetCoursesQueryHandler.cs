@@ -7,12 +7,12 @@ using StructureCodeSolution.Domain.Aggregates.Courses;
 
 namespace StructureCodeSolution.Application.Usecases.V1.Queries.Courses
 {
-    public class GetAllCoursesQueryHandler : IQueryHandler<Query.GetAllCoursesQuery, PagedResult<Response.CourseResponse>>
+    public class GetCoursesQueryHandler : IQueryHandler<Query.GetAllCoursesQuery, PagedResult<Response.CourseResponse>>
     {
         private readonly ICourseRepository _courseRepository;
         private readonly IMapper _mapper;
 
-        public GetAllCoursesQueryHandler(ICourseRepository courseRepository, IMapper mapper)
+        public GetCoursesQueryHandler(ICourseRepository courseRepository, IMapper mapper)
         {
             _courseRepository = courseRepository;
             _mapper = mapper;

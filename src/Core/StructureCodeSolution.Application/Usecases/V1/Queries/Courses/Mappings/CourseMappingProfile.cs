@@ -20,6 +20,10 @@ namespace StructureCodeSolution.Application.Usecases.V1.Queries.Courses.Mappings
                 .ForMember(dest => dest.NumberOfLessons, opt => opt.MapFrom(src => src.Statistics.NumberOfLessons))
                 .ForMember(dest => dest.TotalHours, opt => opt.MapFrom(src => src.Statistics.TotalHours));
             CreateMap<PagedResult<Course>, PagedResult<Response.CourseResponse>>();
+
+            // Video -> VideoResponse
+            CreateMap<Video, Response.VideoResponse>();
+            CreateMap<PagedResult<Video>, PagedResult<Response.VideoResponse>>();
         }
     }
 }

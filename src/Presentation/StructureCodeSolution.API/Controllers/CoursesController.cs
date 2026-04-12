@@ -128,32 +128,15 @@ namespace StructureCodeSolution.API.Controllers
             return HandleSuccess(result, StatusCodes.Status201Created);
         }
 
-        ///// <summary>
-        ///// Get course videos
-        ///// </summary>
-        //[HttpGet("{courseId:guid}/videos")]
-        //[ProducesResponseType(typeof(Response.VideoListResponse), StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status404NotFound)]
-        //public async Task<IActionResult> GetCourseVideos(Guid courseId)
-        //{
-        //    var result = await Sender.Send(new Query.GetCourseVideosQuery(courseId));
-
-        //    if (result.IsFailure)
-        //        return HandlerFailure(result);
-
-        //    return HandleSuccess(result);
-        //}
-
         /// <summary>
-        /// Publish course
+        /// Get course videos
         /// </summary>
-        [HttpPost("{courseId:guid}/publish")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [HttpGet("{courseId:guid}/videos")]
+        [ProducesResponseType(typeof(Response.VideoResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> PublishCourse(Guid courseId)
+        public async Task<IActionResult> GetCourseVideos(Guid courseId)
         {
-            var result = await Sender.Send(new Command.PublishCourseCommand(courseId));
+            var result = await Sender.Send(new Query.GetVideosQuery(courseId));
 
             if (result.IsFailure)
                 return HandlerFailure(result);
@@ -162,36 +145,14 @@ namespace StructureCodeSolution.API.Controllers
         }
 
         /// <summary>
-        /// Rate course
+        /// Get video by ID
         /// </summary>
-        [HttpPost("{courseId:guid}/rate")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [HttpGet("{courseId:guid}/videos/{videoId:guid}")]
+        [ProducesResponseType(typeof(Response.VideoResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> RateCourse(
-            Guid courseId,
-            [FromBody] Command.RateCourseCommand command)
+        public async Task<IActionResult> GetVideoById(Guid courseId, Guid videoId)
         {
-            if (courseId != command.CourseId)
-                return BadRequest("Course ID mismatch");
-
-            var result = await Sender.Send(command);
-
-            if (result.IsFailure)
-                return HandlerFailure(result);
-
-            return HandleSuccess(result);
-        }
-
-        /// <summary>
-        /// Enroll student to course
-        /// </summary>
-        [HttpPost("{courseId:guid}/enroll")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> EnrollStudent(Guid courseId)
-        {
-            var result = await Sender.Send(new Command.EnrollStudentCommand(courseId));
+            var result = await Sender.Send(new Query.GetVideoByIdQuery(courseId, videoId));
 
             if (result.IsFailure)
                 return HandlerFailure(result);

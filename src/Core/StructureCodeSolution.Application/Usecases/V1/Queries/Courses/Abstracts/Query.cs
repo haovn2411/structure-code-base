@@ -14,7 +14,11 @@ namespace StructureCodeSolution.Application.Usecases.V1.Queries.Courses.Abstract
             int? CategoryId = null,
             int? LevelId = null) : IQuery<PagedResult<Response.CourseResponse>>;
 
-        public record GetCourseVideosQuery(
+        public record GetVideoByIdQuery(
+            Guid CourseId,
+            Guid VideoId) : IQuery<Response.VideoResponse>;
+
+        public record GetVideosQuery(
             Guid CourseId,
             int PageIndex = 1,
             int PageSize = 10,
